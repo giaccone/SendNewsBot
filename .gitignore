@@ -1,0 +1,4 @@
+.DS_store
+*.txt
+/__pycache__
+/users
