@@ -104,6 +104,7 @@ def send_report(bot, update):
     feed.append(feedparser.parse('https://www.google.com/alerts/feeds/03166883211171261052/1353638956941984046'))
     # google pixel
     feed.append(feedparser.parse('https://www.google.com/alerts/feeds/03166883211171261052/17750017897550226590'))
+    # WARNING: the two links above should be updated by the one who administrates the bot
 
     # create message
     for rss_feed in feed:
