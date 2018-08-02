@@ -161,6 +161,12 @@ def send_report(bot, update):
 
 
 # =========================================
+# unknown - catch any wrong command
+# =========================================
+def unknown(bot, update):
+    bot.send_message(chat_id=update.message.chat_id, text="Sorry, I didn't understand that command.")
+
+# =========================================
 # building the bot behaviour
 # =========================================
 def main():
@@ -203,6 +209,10 @@ def main():
     # /send_report - send message to all users
     send_report_handler = CommandHandler('send_report', send_report)
     dispatcher.add_handler(send_report_handler)
+
+    # reply to unknown commands
+    unknown_handler = MessageHandler(Filters.command, unknown)
+    dispatcher.add_handler(unknown_handler)
 
     # start the BOT
     updater.start_polling()
