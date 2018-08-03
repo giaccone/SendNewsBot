@@ -59,7 +59,7 @@ def restricted(func):
 # ==========================
 def start(bot, update):
 
-    msg = "This bot send news about a selected topic CIAO.\n"
+    msg = "This bot send news about a selected topic.\n"
     msg += "In this group the topic is: <strong>Google/Android</strong> \n\n"
 
     bot.send_message(chat_id=update.message.chat_id,
@@ -96,9 +96,9 @@ def help(bot, update):
 
 
 # =====================================================
-# send_now report to all users
+# daily_report report to all users
 # =====================================================
-def send_report(bot, update):
+def daily_report(bot, update):
     feed = list()
     # android
     feed.append(feedparser.parse('https://www.google.com/alerts/feeds/03166883211171261052/1353638956941984046'))
@@ -160,11 +160,39 @@ def send_report(bot, update):
     # ==================================================================================================
 
 
+# =====================================================
+# send_report report to a single users
+# =====================================================
+def send_report(bot, update):
+    feed = list()
+    # android
+    feed.append(feedparser.parse('https://www.google.com/alerts/feeds/03166883211171261052/1353638956941984046'))
+    # google pixel
+    feed.append(feedparser.parse('https://www.google.com/alerts/feeds/03166883211171261052/17750017897550226590'))
+    # WARNING: the two links above should be updated by the one who administrates the bot
+
+    # create message
+    for rss_feed in feed:
+        msg = ''
+        for n, entry in enumerate(rss_feed['entries']):
+            msg += str(n + 1) + ') <b>' + entry['title'].replace('<b>','').replace('</b>','') + '</b>\n'
+            msg += '<a href="'
+            msg += entry['link'] + '">link</a>\n\n'
+
+    try:
+        bot.send_message(chat_id=update.message.chat_id,
+                         text=msg,
+                         parse_mode=telegram.ParseMode.HTML, disable_web_page_preview=True)
+    except telegram.error.TelegramError:
+        pass
+
+
 # =========================================
 # unknown - catch any wrong command
 # =========================================
 def unknown(bot, update):
     bot.send_message(chat_id=update.message.chat_id, text="Sorry, I didn't understand that command.")
+
 
 # =========================================
 # building the bot behaviour
@@ -182,7 +210,7 @@ def main():
     hour = 19
     minute = 0
     second = 0
-    job_daily = job_queue.run_daily(send_report, datetime.time(hour, minute, second))
+    job_daily = job_queue.run_daily(daily_report, datetime.time(hour, minute, second))
 
     # code to restart the bot
     def stop_and_restart():
