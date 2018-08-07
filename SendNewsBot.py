@@ -107,8 +107,8 @@ def daily_report(bot, update):
     # WARNING: the two links above should be updated by the one who administrates the bot
 
     # create message
+    msg = ''
     for rss_feed in feed:
-        msg = ''
         for n, entry in enumerate(rss_feed['entries']):
             msg += str(n + 1) + ') <b>' + entry['title'].replace('<b>','').replace('</b>','') + '</b>\n'
             msg += '<a href="'
@@ -172,8 +172,8 @@ def send_report(bot, update):
     # WARNING: the two links above should be updated by the one who administrates the bot
 
     # create message
+    msg = ''
     for rss_feed in feed:
-        msg = ''
         for n, entry in enumerate(rss_feed['entries']):
             msg += str(n + 1) + ') <b>' + entry['title'].replace('<b>','').replace('</b>','') + '</b>\n'
             msg += '<a href="'
